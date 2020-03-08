@@ -1,0 +1,47 @@
+import os
+import random
+from PIL import Image
+import numpy as np
+import torch.utils.data as data
+import torchvision.transforms as transforms
+
+class DogCat(data.Dataset):
+    def __init__(self,root,transform=None):
+        self.transform=transform
+        imgs=[os.path.join(root,img) for img in os.listdir(root)]
+        imgs_num=len(imgs)
+        self.imgs=imgs
+           
+    def __getitem__(self, index):
+        img_path=self.imgs[index]
+     
+        label=1 if 'dog' in img_path.split('/')[-1] else 0
+
+        data=Image.open(img_path)
+        if self.transform is not None:
+            data=self.transform(data)
+        return data,label
+
+    def __len__(self):
+        return len(self.imgs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
